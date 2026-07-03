@@ -1,0 +1,59 @@
+@import "tailwindcss";
+@source "../src";
+@import "tw-animate-css";
+
+
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: white;
+  }
+}
+
+.hero-title {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  font-size: clamp(4rem, 2.5vw + 1rem, 5.5rem);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+
+.hero-subtitle {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  text-transform: none;
+  margin-top: 1.7rem;
+  font-size: clamp(1.3rem, 1.2vw, 1.7rem);
+  color: white;
+  letter-spacing: 0.50em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.navbar {
+  background-color: transparent;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+
+.navbar__link {
+  display: block;
+
+  padding: 0.5rem 1.25rem;
+
+  color: #fff;
+
+  font-size: 0.875rem;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+
+  border-radius: 0;
+
+  transition: background-color 0.2s ease;
+}
+
+.navbar__link:hover {
+  background-color: #5e7179;
+}
