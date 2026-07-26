@@ -2,7 +2,6 @@
 @source "../src";
 @import "tw-animate-css";
 
-
 @layer base {
   body {
     margin: 0;
@@ -13,7 +12,7 @@
 }
 
 .hero-title {
-  font-family: 'Montserrat', system-ui, sans-serif;
+  font-family: "Montserrat", system-ui, sans-serif;
   text-transform: uppercase;
   font-weight: 300;
   letter-spacing: 0.25em;
@@ -21,15 +20,31 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
 
-
 .hero-subtitle {
-  font-family: 'Montserrat', system-ui, sans-serif;
+  font-family: "Montserrat", system-ui, sans-serif;
   text-transform: none;
   margin-top: 1.7rem;
   font-size: clamp(1.3rem, 1.2vw, 1.7rem);
   color: white;
-  letter-spacing: 0.50em;
+  letter-spacing: 0.5em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.site-layout {
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(5, 5, 8, 0.2) 0%,
+      rgba(5, 5, 8, 0.3) 25%,
+      rgba(5, 5, 8, 0.5) 55%,
+      rgba(5, 5, 8, 0.85) 100%
+    ),
+    url("./assets/backgrounds/hero.jpg");
+  background-attachment: fixed;
+  background-color: #050508;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
 }
 
 .navbar {
@@ -56,4 +71,340 @@
 
 .navbar__link:hover {
   background-color: #5e7179;
+}
+
+.donate-page {
+  background: transparent;
+  color: #fff;
+  font-family: "Montserrat", system-ui, sans-serif;
+}
+
+.donate-title {
+  color: #fff;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.donate-description {
+  color: rgba(255, 255, 255, 0.90);
+  letter-spacing: 0.08em;
+  font-size: 1.1rem;
+  line-height: 2rem;
+}
+
+.donate-methods-container {
+  padding: 3rem;
+  border-radius: 0.5rem;
+  background: rgba(217, 194, 163, 0.55);
+
+}
+
+.donate-method-button {
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.donate-method-button:hover {
+  border-color: #fff;
+  background: #5e7179;
+}
+
+.donate-modal-overlay {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.donate-modal-panel {
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: #08090d;
+  color: #fff;
+
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.donate-modal-title {
+  color: #fff;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.donate-modal-close {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: transparent;
+  color: #fff;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.donate-modal-close:hover {
+  border-color: #fff;
+  background-color: #5e7179;
+}
+
+.donate-modal-placeholder {
+  border: 1px dashed rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ==========================
+   Crypto Modal
+========================== */
+
+.crypto-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.crypto-item {
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.035);
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.crypto-item:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.crypto-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.crypto-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.crypto-name {
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.crypto-icon {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+}
+
+.crypto-address {
+  margin-top: 6px;
+  font-family: monospace;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.crypto-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.crypto-button {
+  padding: 9px 16px;
+  border: 1px solid rgba(255,255,255,.35);
+  background: transparent;
+  color: #ffffff;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: .82rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color .2s ease,
+    border-color .2s ease,
+    color .2s ease;
+}
+
+.crypto-button:hover {
+  border-color: #ffffff;
+  background: #5e7179;
+}
+
+.crypto-qr {
+  display: flex;
+  justify-content: center;
+  padding-top: 18px;
+}
+
+.crypto-qr-image {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 10px;
+}
+
+/* ==========================
+   Bank Card Modal
+========================== */
+
+.bank-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.bank-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.bank-label {
+  margin-bottom: 6px;
+  color: #ffffff;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bank-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.bank-amount-button {
+  min-width: 82px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.35);
+  background: transparent;
+  color: #ffffff;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: .9rem;
+  letter-spacing: .05em;
+  cursor: pointer;
+  transition:
+    background-color .2s ease,
+    border-color .2s ease;
+}
+
+.bank-amount-button:hover {
+  border-color: #ffffff;
+  background: #5e7179;
+}
+
+.bank-amount-button-active {
+  background: #C17A9E;
+  border-color: #C17A9E;
+  color: #ffffff;
+}
+
+.bank-amount-button-active:hover {
+  background: #C17A9E;
+  border-color: #C17A9E;
+}
+
+.bank-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.04);
+  color: #ffffff;
+  font-size: .9rem;
+  outline: none;
+  transition:
+    border-color .2s ease,
+    background-color .2s ease;
+}
+
+.bank-input::placeholder {
+  color: rgba(255,255,255,.45);
+}
+
+.bank-input:focus {
+  border-color: rgba(255,255,255,.6);
+  background: rgba(255,255,255,.06);
+}
+
+.bank-card-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.bank-card-row .bank-input {
+  flex: 1;
+}
+
+.bank-donate-button {
+  margin-top: 18px;
+  width: 100%;
+  padding: 11px;
+  border: 1px solid rgba(255,255,255,.35);
+  background: transparent;
+  color: #ffffff;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: .95rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color .2s ease,
+    border-color .2s ease;
+}
+
+.bank-donate-button:hover {
+  border-color: #ffffff;
+  background: #5e7179;
+}
+
+.bank-note {
+  margin-top: 10px;
+  text-align: center;
+  color: rgba(255,255,255,.55);
+  font-size: .75rem;
+  line-height: 1.35;
+}
+
+.bank-card-icons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.bank-card-logo {
+  height: 18px;
+  width: auto;
+  opacity: .45;
+  transition: opacity .2s ease;
+}
+
+.bank-card-logo-active {
+  opacity: 1;
 }
