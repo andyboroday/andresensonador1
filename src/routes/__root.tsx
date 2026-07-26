@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import SoundManager from "../components/SoundManager";
+import { Hero } from "../components/Hero";
+import { Navbar } from "../components/Navbar";
 
 function NotFoundComponent() {
   return (
@@ -120,8 +122,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <SoundManager />
-      <Outlet />
+       {/* <SoundManager /> */}
+      <div className="min-h-screen flex flex-col site-layout">
+        <Hero />
+        <Navbar />
+        <Outlet />
+      </div>
     </QueryClientProvider>
   );
 }

@@ -1,8 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Hero } from "@/components/Hero";
-import { Navbar } from "@/components/Navbar";
 import { DreamScene } from "@/components/DreamScene";
-import heroBackground from "@/assets/backgrounds/hero.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,26 +19,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div
-      className="h-screen flex flex-col overflow-hidden"
-      style={{
-  backgroundImage: `
-          linear-gradient(
-  to bottom,
-  rgba(5,5,8,0.2) 0%,
-  rgba(5,5,8,0.30) 25%,
-  rgba(5,5,8,0.50) 55%,
-  rgba(5,5,8,0.85) 100%
-),
-          url(${heroBackground})
-        `,
-        backgroundSize: "100% auto",
-        backgroundPosition: "top center",
-        backgroundRepeat: "no-repeat"
-}}
-    >
-      <Hero />
-      <Navbar />
+    <div className="flex-1 min-h-0 overflow-hidden">
       <DreamScene />
     </div>
   );
