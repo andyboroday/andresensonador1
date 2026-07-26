@@ -19,11 +19,12 @@ export function DreamScene() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    let renderer: any;
+    let renderer: InstanceType<typeof THREE.WebGPURenderer> | null = null;
     let camera: THREE.PerspectiveCamera;
     let scene: THREE.Scene;
     let mesh: THREE.InstancedMesh;
     let group: THREE.Group;
+    let handleResize: (() => void) | null = null;
 
     // rotation state
     let isDragging = false;
@@ -34,16 +35,52 @@ export function DreamScene() {
     let lastX = 0;
     let lastY = 0;
 
+    const syncContainerHeight = () => {
+      const container = containerRef.current;
+      if (!container) return 1;
+
+      const { top } = container.getBoundingClientRect();
+      const height = Math.max(window.innerHeight - top, 1);
+      container.style.height = `${height}px`;
+
+      return height;
+    };
+
+    const handlePointerUp = () => {
+      isDragging = false;
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (!isDragging) return;
+
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+
+      lastX = e.clientX;
+      lastY = e.clientY;
+
+      rotY += dx * 0.005;
+      rotX += dy * 0.005;
+    };
+
+    const handlePointerDown = (e: PointerEvent) => {
+      isDragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+    };
+
     const init = async () => {
       const container = containerRef.current;
       if (!container) return;
 
+      const containerHeight = syncContainerHeight();
+
       // CAMERA
       camera = new THREE.PerspectiveCamera(
         50,
-        container.clientWidth / container.clientHeight,
+        container.clientWidth / containerHeight,
         0.1,
-        100
+        100,
       );
 
       camera.position.set(2.5, 1.5, 6);
@@ -51,8 +88,8 @@ export function DreamScene() {
 
       // SCENE
       scene = new THREE.Scene();
-      scene.position.y = 0.70;
-      scene.background = null
+      scene.position.y = 0.7;
+      scene.background = null;
 
       // GROUP
       group = new THREE.Group();
@@ -76,102 +113,81 @@ export function DreamScene() {
 
       const position = vec3(cos(angle), 0, sin(angle)).mul(radius);
 
-      const randomOffset = range(vec3(-1), vec3(1))
-        .pow3()
-        .mul(radiusRatio)
-        .add(0.2);
+      const randomOffset = range(vec3(-1), vec3(1)).pow3().mul(radiusRatio).add(0.2);
 
       material.positionNode = position.add(randomOffset);
 
       const colorInside = uniform(color("#ffa575"));
       const colorOutside = uniform(color("#311599"));
 
-      const colorFinal = mix(
-        colorInside,
-        colorOutside,
-        radiusRatio.oneMinus().pow(2).oneMinus()
-      );
+      const colorFinal = mix(colorInside, colorOutside, radiusRatio.oneMinus().pow(2).oneMinus());
 
       const alpha = float(0.1).div(uv().sub(0.5).length()).sub(0.2);
 
       material.colorNode = vec4(colorFinal, alpha);
 
       // MESH
-      mesh = new THREE.InstancedMesh(
-        new THREE.PlaneGeometry(1, 1),
-        material,
-        20000
-      );
+      mesh = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), material, 20000);
 
       group.add(mesh);
 
       // RENDERER
-      renderer = new THREE.WebGPURenderer({ antialias: true });
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      const nextRenderer = new THREE.WebGPURenderer({ antialias: true });
+      renderer = nextRenderer;
+      nextRenderer.setPixelRatio(window.devicePixelRatio);
+      nextRenderer.setSize(container.clientWidth, containerHeight);
 
-      await renderer.init();
+      await nextRenderer.init();
 
-      container.appendChild(renderer.domElement);
+      container.appendChild(nextRenderer.domElement);
 
       // POINTER DRAG CONTROL (как в three.js examples)
 
-      container.addEventListener("pointerdown", (e) => {
-        isDragging = true;
-        lastX = e.clientX;
-        lastY = e.clientY;
-      });
-
-      window.addEventListener("pointerup", () => {
-        isDragging = false;
-      });
-
-      window.addEventListener("pointermove", (e) => {
-        if (!isDragging) return;
-
-        const dx = e.clientX - lastX;
-        const dy = e.clientY - lastY;
-
-        lastX = e.clientX;
-        lastY = e.clientY;
-
-        rotY += dx * 0.005;
-        rotX += dy * 0.005;
-      });
+      container.addEventListener("pointerdown", handlePointerDown);
+      window.addEventListener("pointerup", handlePointerUp);
+      window.addEventListener("pointermove", handlePointerMove);
 
       // ANIMATION
       const animate = () => {
         group.rotation.x = rotX;
         group.rotation.y = rotY;
 
-        renderer.render(scene, camera);
+        nextRenderer.render(scene, camera);
       };
 
-      renderer.setAnimationLoop(animate);
+      nextRenderer.setAnimationLoop(animate);
 
       // RESIZE
-      const onResize = () => {
+      handleResize = () => {
         const c = containerRef.current;
         if (!c) return;
 
-        camera.aspect = c.clientWidth / c.clientHeight;
+        const height = syncContainerHeight();
+
+        camera.aspect = c.clientWidth / height;
         camera.updateProjectionMatrix();
 
-        renderer.setSize(c.clientWidth, c.clientHeight);
+        nextRenderer.setSize(c.clientWidth, height);
       };
 
-      window.addEventListener("resize", onResize);
+      window.addEventListener("resize", handleResize);
     };
 
     init();
 
     return () => {
-      window.removeEventListener("resize", () => {});
+      const container = containerRef.current;
+
+      container?.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointermove", handlePointerMove);
+      if (handleResize) window.removeEventListener("resize", handleResize);
+      renderer?.setAnimationLoop(null);
     };
   }, []);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full overflow-hidden">
       <div ref={containerRef} className="w-full h-full" />
     </section>
   );

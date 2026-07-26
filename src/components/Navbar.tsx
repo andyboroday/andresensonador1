@@ -7,7 +7,13 @@ export function Navbar() {
         {items.map((label) => (
           <li key={label}>
             <a
-              href={`#${label.toLowerCase()}`}
+              href={
+  label === "Home"
+    ? "/"
+    : label === "Donate"
+    ? "/donate"
+    : `/#${label.toLowerCase()}`
+}
               className="block navbar__link"
             >
               {label.toUpperCase()}
